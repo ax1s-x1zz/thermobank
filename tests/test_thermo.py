@@ -48,3 +48,32 @@ def test_screen_runs():
     rows = screen.run_screen()
     assert len(rows) == len(REACTIONS)
     assert all(r.T_star is not None for r in rows)
+
+
+def test_equilibrium_threshold_below_boiling():
+    from thermobank import equilibrium as eq
+    rxn = next(r for r in REACTIONS if r["id"] == "gypsum")
+    t_eff = eq.effective_threshold(rxn, eq.AMBIENT["typical_50RH"])
+    # in ordinary air the effective threshold is far below the 1-bar T*
+    assert t_eff < 300.0  # < 27 C
+
+
+def test_simulation_arrhenius_roundtrip():
+    from thermobank import simulation as sim
+    A = sim.pre_exponential(sim.EA_DEFAULT, sim.T_REF_DEFAULT, sim.T90_REF_DEFAULT)
+    Ts = [333.15, 353.15, 373.15]
+    ks = [sim.rate_constant(A, sim.EA_DEFAULT, T) for T in Ts]
+    Ea_fit, _ = sim.fit_arrhenius(Ts, ks)
+    assert abs(Ea_fit - sim.EA_DEFAULT) < 0.5
+
+
+def test_simulation_rk4_matches_analytic():
+    from thermobank import simulation as sim
+    A = sim.pre_exponential(sim.EA_DEFAULT, sim.T_REF_DEFAULT, sim.T90_REF_DEFAULT)
+    T = 353.15
+    k = sim.rate_constant(A, sim.EA_DEFAULT, T)
+    ts, alphas = sim.integrate(A, sim.EA_DEFAULT, T,
+                               t_end=sim.time_to_conversion(k, 0.9) * 1.2,
+                               dt=sim.time_to_conversion(k, 0.9) / 1000)
+    err = max(abs(a - (1 - math.exp(-k * t))) for t, a in zip(ts, alphas))
+    assert err < 1e-6
