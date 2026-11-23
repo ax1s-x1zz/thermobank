@@ -1,0 +1,10 @@
+id,reaction,class,dH_kJ_mol,dS_J_molK,T_star_K,T_star_C,energy_density_kJ_kg,data_center,industrial_low,industrial_high,data_quality
+glauber,Na2SO4.10H2O -> Na2SO4 + 10H2O(g),salt hydrate,521.7,1447.9,360.0,87.0,1619.0,True,False,False,approx
+gypsum,CaSO4.2H2O -> CaSO4 + 2H2O(g),salt hydrate,104.9,290.3,361.0,88.0,609.0,True,False,False,approx
+cacl2_hydrate,CaCl2.6H2O -> CaCl2 + 6H2O(g),salt hydrate,361.2,937.6,385.0,112.0,1649.0,False,False,False,approx
+cuso4_hydrate,CuSO4.5H2O -> CuSO4 + 5H2O(g),salt hydrate,299.2,753.0,397.0,124.0,1198.0,False,False,False,approx
+mgoh2,Mg(OH)2 -> MgO + H2O(g),hydroxide,81.0,152.5,531.0,258.0,1389.0,False,False,False,ref
+mgh2,MgH2 -> Mg + H2(g),hydride,75.3,132.3,569.0,296.0,2861.0,False,False,False,ref
+caoh2,Ca(OH)2 -> CaO + H2O(g),hydroxide,109.2,143.5,761.0,488.0,1474.0,False,False,True,ref
+baoh2,Ba(OH)2 -> BaO + H2O(g),hydroxide,149.4,152.1,982.0,709.0,872.0,False,False,False,ref
+caco3,CaCO3 -> CaO + CO2(g),carbonate,178.3,158.9,1122.0,849.0,1782.0,False,False,False,ref

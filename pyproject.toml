@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "thermobank"
+version = "0.1.0"
+description = "Thermochemical heat-storage screening for low-grade waste heat"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "Apache-2.0" }
+authors = [{ name = "Jangseowoo", email = "ax1s@x1zz.com" }]
+dependencies = ["numpy", "pandas"]
+
+[project.optional-dependencies]
+plot = ["matplotlib"]
+dev = ["pytest"]
+
+[project.scripts]
+thermobank = "thermobank.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
