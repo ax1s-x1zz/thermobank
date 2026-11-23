@@ -52,21 +52,35 @@ def fig_dg_curves():
 
 def fig_map():
     rows = screen.run_screen()
-    fig, ax = plt.subplots(figsize=(9, 5.5))
+    fig, ax = plt.subplots(figsize=(10, 5.8))
+    offsets = {
+        "glauber": (8, -14),
+        "cacl2_hydrate": (8, 8),
+        "gypsum": (8, -2),
+        "cuso4_hydrate": (8, 4),
+        "mgoh2": (8, 4),
+        "mgh2": (8, -14),
+        "caoh2": (8, 4),
+        "baoh2": (8, 4),
+        "caco3": (-52, 4),
+    }
     for r in rows:
         tstar = r.T_star - 273.15
         color = "#264653" if r.quality == "ref" else "#8ab17d"
         ax.scatter(tstar, r.energy_density, s=60, color=color, zorder=3)
         ax.annotate(r.id, (tstar, r.energy_density),
-                    textcoords="offset points", xytext=(6, 4), fontsize=8)
+                    textcoords="offset points", xytext=offsets.get(r.id, (6, 4)),
+                    fontsize=8)
+    ymax = max(r.energy_density for r in rows)
     for label, lo, hi, c in WINDOWS:
         ax.axvspan(lo - 273.15, hi - 273.15, color=c, alpha=0.18)
-        ax.text((lo + hi) / 2 - 273.15, ax.get_ylim()[1] * 0.96,
+        ax.text((lo + hi) / 2 - 273.15, ymax * 1.08,
                 label, ha="center", va="top", fontsize=8)
     ax.set_xlabel("Threshold temperature T* (C)")
     ax.set_ylabel("Energy density (kJ/kg)")
     ax.set_title("Storage reactions: temperature requirement vs energy density")
     ax.set_xlim(0, 950)
+    ax.set_ylim(0, ymax * 1.18)
     fig.tight_layout()
     p = os.path.join(OUT, "fig2_map.png")
     fig.savefig(p, dpi=200)
