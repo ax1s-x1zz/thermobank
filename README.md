@@ -37,8 +37,25 @@ thermobank reaction gypsum --temp 80
 |---|---|
 | `thermo` | reaction `dH`, `dS`, `dG(T)`, threshold temperature `T*`, energy density |
 | `screen` | ranks every candidate against data-centre / industrial heat windows |
+| `equilibrium` | equilibrium vapour pressure `p_eq(T)` and the *effective* threshold in ambient air |
 | `kinetics` | Arrhenius relative rate — spontaneity is not the same as speed |
+| `uncertainty` | Monte Carlo propagation of formation-data errors into `T*` |
 | `calorimetry` | molar heat of solution from a simple calorimetry measurement |
+
+## Key findings
+
+1. **The 1-bar threshold is misleading.** `T*` (where `p_eq = 1 bar`) is 87-88 C
+   for gypsum and Glauber's salt, which looks like a hard floor for low-grade
+   heat. But a dehydration only needs `p_eq(T) > ambient humidity`. In ordinary
+   50% RH air (~0.016 bar) the effective threshold drops to **~19 C** for both —
+   far below data-centre waste heat.
+2. **So the real bottleneck is kinetics, not thermodynamics.** At 60-90 C the
+   dehydration is thermodynamically favoured; whether it happens fast enough is
+   set by the activation energy. This reframes the design question.
+3. **Uncertainty is large for hydrates.** Propagating formation-data errors
+   gives gypsum `T* = 87 C` with a 5-95% interval of **[45, 134] C**, versus a
+   tight [72, 103] C for Glauber's salt. Screening tables need error bars.
+
 
 ## Method (one line)
 
